@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const checkForTags = require('./check-for-tags');
+const lookForTags = require('./look-for-tags');
 
 let dir = __dirname + '/data/';
 let finalCounts = [];
@@ -47,7 +47,7 @@ module.exports = {
             try {
               var myjson = JSON.parse(data);
               // check object for tags
-              checkForTags(myjson, finalCounts, (returnedCounts) => {
+              lookForTags(myjson, finalCounts, (returnedCounts) => {
                 finalCounts = returnedCounts;
               });
             } catch (error) {
