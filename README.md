@@ -5,8 +5,10 @@ Instructions
 
 _NOTE: no spaces between tags when including list as an argument_
 
-_`$ cd node-exam`_
-_`$ node program.js tag1,tag2,tag3`_
+```
+$ cd node-exam
+$ node program.js tag1,tag2,tag3
+```
 
 ====
 
