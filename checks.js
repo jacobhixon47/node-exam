@@ -14,11 +14,12 @@ module.exports = {
     });
   },
   getTags: (tags) => {
+    // if CLI argument(s) provided
     if (process.argv[2]) {
       tags = process.argv[2].split(',');
       module.exports.createTagCounts(tags);
     } else {
-      // if no CLI args, use tags from sample tags.txt file
+      // if no CLI arguments, use tags from sample tags.txt file
       fs.readFile(__dirname + '/tags.txt', 'utf8', (err, data) => {
         tags = data.split('\n');
         module.exports.createTagCounts(tags);
