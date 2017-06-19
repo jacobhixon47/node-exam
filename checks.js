@@ -18,7 +18,7 @@ module.exports = {
   },
   getTags: (list) => {
     // if CLI argument(s) provided
-    if (list === '/n') {
+    if (list.length <= 2) {
       console.log("-------> Using default list...");
       fs.readFile(__dirname + '/tags.txt', 'utf8', (err, data) => {
         let tags = data.split('\n');
@@ -55,9 +55,7 @@ module.exports = {
             try {
               let myjson = JSON.parse(data);
               // check object for tags
-              console.log("### FINAL COUNTS BEFORE LOOKFORTAGS: " + finalCounts);
               lookForTags(myjson, finalCounts, (returnedCounts) => {
-                // console.log("### FINAL COUNTS AFTER LOOKFORTAGS: " + finalCounts);
                 finalCounts = returnedCounts;
               });
             } catch (error) {
@@ -67,7 +65,7 @@ module.exports = {
               fileCount++;
               // if all relevant files have been checked
               if (fileCount === list.length) {
-                console.log("\n-------> DONE CHECKING FILES!\n");
+                console.log("-------> DONE CHECKING FILES!\n");
                 // sort tags by count (highest to lowest)
                 finalCounts.sort( (a, b) => {
                   return b[1] - a[1];
@@ -76,8 +74,8 @@ module.exports = {
                 finalCounts.forEach( (count) => {
                   console.log(count[0] + ": " + count[1]);
                 });
-                console.log("\n--> Please type or paste a tag or list of tags to search for, separated by commas. Then press [Enter]");
-                console.log("--> To exit, type 'quit' and press [Enter]");
+                console.log("\n\n##### - TAG SEARCH - #####");
+                console.log("\n--> To review instructions, type 'help' and press [Enter]\n");
               }
             }
           }
