@@ -1,35 +1,42 @@
 const fs = require('fs');
 const path = require('path');
+const util = require('util');
 const lookForTags = require('./look-for-tags');
 
 let dir = __dirname + '/data/';
 let finalCounts = [];
+
 module.exports = {
-  // create method so it can be called in either conditional below (DRY)
+  // create method so it can be called in either conditional in getTags() method (DRY)
   createTagCounts: (list) => {
+    finalCounts = [];
     list.forEach( (tag) => {
       if (tag.length >= 1) {
         finalCounts.push([tag, 0]);
       }
     });
   },
-  getTags: (tags) => {
+  getTags: (list) => {
     // if CLI argument(s) provided
-    if (process.argv[2]) {
-      tags = process.argv[2].split(',');
-      module.exports.createTagCounts(tags);
-    } else {
-      // if no CLI arguments, use tags from sample tags.txt file
+    if (list === '/n') {
+      console.log("-------> Using default list...");
       fs.readFile(__dirname + '/tags.txt', 'utf8', (err, data) => {
-        tags = data.split('\n');
+        let tags = data.split('\n');
         module.exports.createTagCounts(tags);
+        module.exports.runCheck(dir);
       });
+    } else {
+      console.log('-------> Recieved Search Tags...');
+      let tags = list.replace(/\s/g, '').split(',');
+      module.exports.createTagCounts(tags);
+      module.exports.runCheck(dir);
+      // if no CLI arguments, use tags from sample tags.txt file
     }
   },
   runCheck: (dir) => {
+    let fileCount = 0;
     console.log('\n-------> Starting Check\n');
     fs.readdir(dir, (err, fileList) => {
-      var fileCount = 0;
       if (err) return console.error(err);
       // filter fileList for only files with .json extension
       let list = fileList.filter( (file) => {
@@ -46,9 +53,11 @@ module.exports = {
           } else {
             // parse json and catch errors if invalid
             try {
-              var myjson = JSON.parse(data);
+              let myjson = JSON.parse(data);
               // check object for tags
+              console.log("### FINAL COUNTS BEFORE LOOKFORTAGS: " + finalCounts);
               lookForTags(myjson, finalCounts, (returnedCounts) => {
+                // console.log("### FINAL COUNTS AFTER LOOKFORTAGS: " + finalCounts);
                 finalCounts = returnedCounts;
               });
             } catch (error) {
@@ -67,6 +76,8 @@ module.exports = {
                 finalCounts.forEach( (count) => {
                   console.log(count[0] + ": " + count[1]);
                 });
+                console.log("\n--> Please type or paste a tag or list of tags to search for, separated by commas. Then press [Enter]");
+                console.log("--> To exit, type 'quit' and press [Enter]");
               }
             }
           }
@@ -75,11 +86,3 @@ module.exports = {
     });
   }
 }
-// http.createServer(function (req, res) {
-//   res.writeHead(200, {'Content-Type': 'application/json'});
-//   var search = JSON.parse({
-//     "tags": tags,
-//     "counts": finalCounts
-//   })
-//   res.write(search);
-// }).listen('8000');
