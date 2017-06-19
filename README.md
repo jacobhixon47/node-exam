@@ -12,10 +12,7 @@ I tried to include lots of comments explaining important/complicated parts of my
 
 Instructions
 ----
-- In the terminal, navigate into the root directory of the project, then simply run:
-```
-$ npm start
-```
+- In the terminal, navigate into the root directory of the project, then simply run `$ npm start`
 - Follow the instructions in the terminal to enter your list of tags
   - Type 'help' to review instructions when needed
 
@@ -37,6 +34,6 @@ When you enter a list of tags (or just one if you're feeling specific), the high
 4. The `runCheck()` method takes the unmatched tags and searches through the all `.json` files in the `/data/` directory, counting the instances for each tag
   - `NOTE`: If every tag matches to a previously cached result, `runCheck()` will immediately print out the counts and then prompt the user to search again, skipping the entire file-searching process altogether
   - If the JSON file is invalid/returns an error when being parsed, the program prints the error in the terminal and skips the file
-  
+
 5. After the tags have all been counted and all file-searching has finished, the program prints out the count for each searched tag, and then prompts the user to search again, and awaits input
   - Return to step 1. Rinse and repeat.
