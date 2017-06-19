@@ -16,7 +16,7 @@ printInstructions();
 // when user presses enter
 process.stdin.on('data', function (text) {
   if (text === 'quit\n') {
-    console.log("Exiting...");
+    console.log("\n-------> Exiting...\n");
     process.exit();
   } else if (text === 'help\n') {
     printInstructions();

@@ -1,13 +1,5 @@
 Node.js exam
 
-Instructions
-----
-
-```
-$ cd node-exam
-$ npm start
-```
-
 ====
 
 Quick practical exam for node.js candidates.
